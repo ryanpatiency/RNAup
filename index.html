@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>RNAup</title>
+</head>
+
+<body>
+    <div class='container'>
+        <h1>RNAup by ryanpatiency</h1>
+        <div class="row">
+            <div class="col">
+                <h2>RNA transcript sequence</h2>
+                <textarea id="RNA" rows="5" class='col-md-12' placeholder="RNA transcript sequence"></textarea>
+                <h2>tRF sequence</h2>
+                <textarea id="tRF" rows="2" class='col-md-12' placeholder="tRF sequence"></textarea>
+                <h2>Possible location</h2>
+                <input id="start-range" type="text" placeholder="start-range">
+                <input id="end-range"  type="text" placeholder="end-range">
+                <button id='ex1' style="display:block; margin: 1em 0em;">Example 1</button>
+                <button id='ex2' style="display:block; margin: 1em 0em;">Example 2</button>
+                <button id='clear' style="display:block; margin: 1em 0em;">clear</button>
+                <button id='submit' style="display:block; margin: 1em 0em;">Submit</button>
+            </div>
+            <div class="col">
+                <h3>Guessed Length</h3>
+                <input id="guessed-len" type="text" readonly class="form-control-plaintext" value="">
+                <h3>Matched Length</h3>
+                <input id="matched-len" type="text" readonly class="form-control-plaintext" value="">
+                <h3>Origin input</h3>
+                <textarea id="origin" rows="2" type="text" readonly class="form-control-plaintext" value=""></textarea>
+                <h3>Change T to U</h3>
+                <textarea id="t-to-u" rows="2" type="text" readonly class="form-control-plaintext" value=""></textarea>
+                <h3>Reverse tRF</h3>
+                <textarea id="reverse-trf" rows="2" type="text" readonly class="form-control-plaintext" value=""></textarea>
+                <h3>Result of RNAup</h3>
+                <textarea id="rnaup-result" rows="2" type="text" readonly class="form-control-plaintext" value=""></textarea>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script>
+        function submit(){
+            $.post('json',
+                {
+                    RNA: $('#RNA').val(),
+                    tRF: $('#tRF').val(),
+                    'start-range': $('#start-range').val(),
+                    'end-range': $('#end-range').val()
+                },
+                function (data) {
+                    $('#guessed-len').val(data['guessed-len']);
+                    $('#matched-len').val(data['matched-len']);
+                    $('#origin').val(data['origin']);
+                    $('#t-to-u').val(data['t-to-u']);
+                    $('#reverse-trf').val(data['reverse-trf']);
+                    $('#rnaup-result').val(data['rnaup-result']);
+                })
+        }
+        $('#submit').on('click', submit);
+
+        function ex1Click(){
+            RNA = "AGATTTCCAGAAAATGGCTCTTCCCGGAGAACGATTCCACGTTCTTGCTCAATTGGAGCATCTTCAATCGAAATACACCGGTACGGCCATGCGACATGAACCGTCACGAATGGATTGTGAATCAGCACCGCGACACTCGCGCCTTTCAAATGTCTCATCCCGGAATGAACACGTATATTGCCGTTGTGGAGAACGAGAGCCGAGCTCGAACCCGCTTCAATCTGATAAATCGCATGATTCAGCCGTGTGGACCGCCTCCAGAGAAGAATCCTCTTGATGACGCCTAACTATCTGAATAACTTATTTTATATTTTTTATGAAGTAATTTGATCTCCATTC";
+            tRF = 
+            "TCAAGAGGACTTCTCAGGACC";
+            start_range = 255;
+            end_range = 280;
+            $('#RNA').val(RNA),
+            $('#tRF').val(tRF),
+            $('#start-range').val(start_range),
+            $('#end-range').val(end_range)
+        }
+        $('#ex1').on('click', ex1Click);
+        function ex2Click(){
+            RNA = "ACUCGGAUGUCCACAGUCUGUCCACUUUCAAUUCCUCUUCAUUCGUGCAGCCGUUUUUUGCUGUGACGUAGUAGUGGGUAUAUCUUUCUCGUGAAAUAACAUGUUGUGUUCUUCGAGUGAAUAUAUUCUUUGAGGCUUUUUUAAGGCAGAUUUUGAAACAAUAUAGCAAAAUUUAUUGCUCUAUAAUGAAACUAAAAAAUUACAACUUUUAACUACAAAAACAUGCAAAAAAAUGGUAUAAUUUGAGGUUUACCUAAUUUUAAUUUUGAUUUUUCAAACAUUUAAACAUCCAUAAAAAAAAUACAAAAUCAUUUUUUGGCAUCAUUUCUCCUAUUUUAAAUAAUUUUAUUUUAAAAAUUAGCUUCUCAACAUUGGAAAAAAUGAUCGAACAUGCAACUUUUCUAGCUAUAAUUGAAAAUCUGUCAUUGAGCAAUUAAUAUAGACCCAUUUUUUCAACACCCAUACCUUUCUUAUCAGUUUCCCUCUUGCCAUCUUUCGUGUACAUUUGCAACAUUUUCUGGAUCAUCAAUCAAGUGUGCACUGACCACUCUCUCUCUCCUCCUAUUUCCCUCCUUCUAAAUUCGUCUAGGCGUCGUUUGCGUAUGUGUAUGUAGCGGCAGGCACUGCCCCGUUUCACGCACUUUUGCCUGAUACCAUGGAGGACGACGGCGCCCGGUACUGCCGCCCGGGCCCGCGGUUCGCAACAAUGGAGCAUACGGAGACGAAGAGACGCAGCGAACCGCGAGCCACCAAGUUGCUCCGUGUGCCGCCGGCGCCCUUUUAGCCCCACCUCUCGCGGGUUUCUGUUCAUAUAUGAGAAGCGCAUCAGUUUUUUUUUCUUAUUCUAGAUGAGUAGCCCACCUAGCAGCGGUCGUUUUUUUCUCUUUUCGUAGGAAAAUUUUCAGUUACACUUAUUUAUUAGAAACCUAGAUUUAGAGACUUUUAGAAUAACUUUACUUCCUAGAACACAUCUCCCUUUGAAUUUAUAUGUCUAAUUUAACAACAAGUACUAAUCCAUUUUUCAGGCAAGCAGGCGAUUGGUGGACGGUCUACACUGUGGAUCCGGUGAGGUAGUAGGUUGUAUAGUUUGGAAUAUUACCACCGGUGAACUAUGCAAUUUUCUACCUUACCGGAGACAGAACUCUUCGAAGCUGCGUCGUCUUGCUCUCACAACUUUCUUUUCGUUUUCUUCCUCCUCUUACUUUCACCUCUUUGUUUUUCUUUAUUUUGUGCUAUCAAUUCGGAGUCGCAAGAACUGUAUUCGGUGAUCCCUAUUGAUAUUCUUUUGUACUGUAUUCGGAGAUAUUGUUUCACGAACUGUAUUCGGAGAACUGUUGUAUCGGUAAUGUAUCUGGAGAGAAUAAUCUAAUCGUAUGUACUGUUGAGUAAUGUAUCCAUGGAGCCGUUUGACAUUUCUAGUGGUAAGAUGUGCAAUAGUUCCAAUUGCUAGUCUUCACCAUUGUAGAUAGUGGAAAUCAUGUUUAUUUUCAGGGGAACCUCAUCUGCUGGGCAACUACUCCAACAUGCGUGUCGCCUAGGGAAUGCCGUCUGGCACCAAGUGGGCUGUCACCGCAAAUCAUCAGGAUCUCACACUUCUACCUCAACACCUCUACCUCAUCCGCAUCUACCUCGAUUGGACCUAUUUUUUUUAAAUUCUUCAAAUAAAAACUUUUUUAUAAUUUAAACAUUUGAACUUGCUCUUGAUAAUUAGAUAAAUUUUUUAUUUACAACA";
+            tRF = 
+            "GGCACCAGTCCCTTCGGGGGCGT";
+            start_range = 407;
+            end_range = 418;
+            $('#RNA').val(RNA),
+            $('#tRF').val(tRF),
+            $('#start-range').val(start_range),
+            $('#end-range').val(end_range)
+        }
+        $('#ex2').on('click', ex2Click);
+
+        function clearClick(){
+            $('#RNA').val(""),
+            $('#tRF').val(""),
+            $('#start-range').val(""),
+            $('#end-range').val("")
+            $('input').val('')
+        }
+        $('#clear').on('click', clearClick)
+    </script>
+</body>
+
+</html>

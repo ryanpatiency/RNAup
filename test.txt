@@ -1,0 +1,3 @@
+(((.((((((..(((((((((&))))))))))))))).)))   3,23  :   1,19  (-18.32 = -25.38 + 3.92 + 3.14)
+UCCAGAGAAGAAUCCUCUUGA&UCAAGAGGACUUCUCAGGA
+RNAup output in file: RNA_w25_u1.out
